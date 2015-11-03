@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Rough-auditing-tool-for-security by amuntner</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Rough-auditing-tool-for-security</h1>
+        <p>Automatically exported from code.google.com/p/rough-auditing-tool-for-security</p>
+
+        <p class="view"><a href="https://github.com/amuntner/rough-auditing-tool-for-security">View the Project on GitHub <small>amuntner/rough-auditing-tool-for-security</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/amuntner/rough-auditing-tool-for-security/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/amuntner/rough-auditing-tool-for-security/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/amuntner/rough-auditing-tool-for-security">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Exported from code.google.com/p/rough-auditing-tool-for-security       </p>
+
+<pre><code>    RATS - Rough Auditing Tool for Security
+</code></pre>
+
+<p>This is RATS, a rough auditing tool for security, developed by Secure
+Software Inc.  It is a tool for scanning C, C++, Perl, PHP, Python 
+and Ruby source code and flagging common security related programming
+errors such as buffer overflows and TOCTOU (Time Of Check, Time Of
+Use) race conditions.  As its name implies, the tool performs only a
+rough analysis of source code.  It will not find every error and will
+also find things that are not errors.  Manual inspection of your code
+is still necessary, but greatly aided with this tool.</p>
+
+<p>RATS is free software.  You may copy, distribute, and modify it under
+the terms of the GNU Public License as contained in the file named
+COPYING that has been included with this distribution.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>RATS requires expat to be installed in order to build and run.  Expat
+is often installed in /usr/local/lib and /usr/local/include.  On some
+systems, you will need to specify --with-expat-lib and
+--with-expat-include options to configure so that it can find your
+installation of the library and header.</p>
+
+<p>Expat can be found at: <a href="http://expat.sourceforge.net/">http://expat.sourceforge.net/</a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Building and installation of RATS is simple.  To build, you simply
+need to run the configuration shell script in the distribution's
+top-level directory:</p>
+
+<pre><code>    ./configure
+</code></pre>
+
+<p>The configuration script is a standard autoconf generation
+configuration script and accepts many options.  Run configure with the
+--help option to see what options are available.</p>
+
+<p>Once the configuration script has completed successfully, simply run
+make in the distribution's top-level directory to build the program:</p>
+
+<pre><code>    make
+</code></pre>
+
+<p>By default, RATS will be installed to /usr/local/bin and its
+vulnerability database will be installed to /usr/local/lib.  You may
+change the installation directories of both with the --prefix option
+to configure.  You may optionally use the --bindir and --datadir to
+specify more precise locations for the files that are installed.</p>
+
+<p>To install after building, simply run make with the install target:</p>
+
+<pre><code>    make install
+</code></pre>
+
+<p>This will copy the built binary, rats, to the binary installation
+directory and the vulnerability database, rats.xml, to the data
+installation directory.</p>
+
+<h2>
+<a id="running-rats" class="anchor" href="#running-rats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running RATS</h2>
+
+<p>Once you have built and installed RATS, it's time to start auditing
+your software!  RATS accepts a few command line options that will be
+described here and accepts a list of files to audit on the command
+line.  If no files to audit are specified, stdin will be used.</p>
+
+<p>usage: rats [options] [file]...</p>
+
+<p>Options explained:
+    -d , --db , --database 
+                    Specifies a vulnerability database to be loaded.  You may
+                    have multiple -d options and each database specified will
+                    be loaded.
+    -h, --help      Displays a brief usage summary
+    -i, --input     Causes a list of function calls that were used which
+                    accept external input to be produced at the end of the
+                    vulnerability report.
+    -l , --language 
+                Force the specified language to be used regardless of 
+                    filename extension. Currently valid language names are 
+                    "c", "perl", "php", "python" and "ruby".
+    -r, --references
+                Causes references to vulnerable function calls that are not
+                    being used as calls themselves to be reported.
+    -w , --warning
+            Sets the warning level.  Valid levels are 1, 2 or 3.<br>
+                    Warning level 1 includes only default and high severity
+                    Level 2 includes medium severity. Level 2 is the default 
+                    warning level 3 includes low severity vulnerabilities.
+    -x              Causes the default vulnerability databases (which are in 
+                    the installation data directory, /usr/local/lib by default)
+                    to not be loaded.
+    -R, --no-recursion
+            Disable recursion into subdirectories.
+    --xml       Cause output to be in XML
+    --html      Cause output to be in HTML
+    --follow-symlinks
+            Evaluate and follow symlinks.</p>
+
+<p>When started, RATS will scan each file specified on the command line and
+produce a report when scanning is complete.  What vulnerabilities are reported
+in the final report depend on the data contained in the vulnerability database
+or databases that are used and the warning level in use.</p>
+
+<p>For each vulnerability, the list of files and line numbers where it occured is
+given, followed by a brief description of the vulnerability and suggested
+action.</p>
+
+<h2>
+<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>RATS is authored, maintained and distributed by Secure Software, Inc.  All
+bug reports, patches, database contributions, comments, etc. should be sent to
+<a href="mailto:rats@securesoftware.com">rats@securesoftware.com</a>.  Our website is <a href="http://www.securesoftware.com/">http://www.securesoftware.com/</a></p>
+
+<h2>
+<a id="acknowledgments" class="anchor" href="#acknowledgments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgments</h2>
+
+<p>Thanks to Mike Ellison for providing the legwork on the initial port
+of rats-1.3 to the Win32 platform.</p>
+
+<p>Special thanks to Ben Laurie for many significant contributions,
+including the OpenSSL-specific portions of the database.</p>
+
+<p>Thanks to Adam Lazur for originally authoring the man page</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/amuntner">amuntner</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
